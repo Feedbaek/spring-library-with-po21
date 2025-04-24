@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+    <groupId>com.tmax.proobject</groupId>
+	<artifactId>proobject-common</artifactId>
+    <version>21.2.0.0.16.1</version>
+    <packaging>jar</packaging>	
+    <name>proobject-common</name>
+	<description>proobject21 common libary by minskim2</description>
+	
+	<properties>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+	</properties>
+	
+	<repositories>
+		<repository>
+            <id>proobject21</id>
+			<name>tmax</name>
+			<url>http://192.168.19.156:8081/repository/proobject21-rte-ps-repo-group</url>
+        </repository>
+		<repository>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>https://repo.maven.apache.org/maven2</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<dependencies>
+
+		<!-- ProObject -->
+<!--		<dependency>-->
+<!--			<groupId>com.tmax.proobject</groupId>-->
+<!--			<artifactId>proobject-spring-boot-starter</artifactId>-->
+<!--			<version>21.2.0.0.16</version>-->
+<!--		</dependency>-->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<version>2.7.18</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+			<version>2.7.18</version>
+		</dependency>
+
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-configuration-processor</artifactId>-->
+<!--			<optional>true</optional>-->
+<!--		</dependency>-->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+			<version>2.7.18</version>
+		</dependency>
+
+		<!-- pom.xml -->
+		<dependency>
+			<groupId>org.redisson</groupId>
+			<artifactId>redisson-spring-boot-starter</artifactId>
+			<version>3.17.0</version>
+		</dependency>
+
+
+		<!--		<dependency>-->
+<!--			<groupId>com.github.ben-manes.caffeine</groupId>-->
+<!--			<artifactId>caffeine</artifactId>-->
+<!--			<version>3.2.0</version>-->
+<!--		</dependency>-->
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.38</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+		
+	<build>
+        <plugins>
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+			</plugin>
+        </plugins>        
+    </build>
+</project>
