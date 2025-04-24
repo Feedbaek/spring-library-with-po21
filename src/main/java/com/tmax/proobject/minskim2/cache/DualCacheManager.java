@@ -17,8 +17,8 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class DualCacheManager implements CacheManager {
 
-    private final LocalCacheManager localManager;
-    private final GlobalCacheManager globalManager;
+    private final CacheManager localManager;
+    private final CacheManager globalManager;
 
     @Override
     public Cache getCache(@NonNull String name) {
