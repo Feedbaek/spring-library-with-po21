@@ -6,8 +6,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="proobject-common" />
         <module name="N-demo" />
+      </profile>
+      <profile name="Annotation profile for proobject-common" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure-processor/2.7.18/spring-boot-autoconfigure-processor-2.7.18.jar" />
+        </processorPath>
+        <module name="proobject-common" />
       </profile>
     </annotationProcessing>
   </component>

@@ -9,6 +9,10 @@ import java.util.concurrent.Callable;
 
 /**
  * 로컬 캐시와 글로벌 캐시를 내부에 갖고있는 듀얼 캐시. DualCacheManager 가 사용하는 캐시 구현체.
+ *
+ * @since 2025.04.25
+ * @version 1.0
+ * @author 김민석G (minskim2)
  * */
 @Getter
 public class DualCache implements Cache {
