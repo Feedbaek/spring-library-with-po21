@@ -7,6 +7,7 @@ import io.lettuce.core.SocketOptions;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import io.lettuce.core.cluster.ClusterTopologyRefreshOptions;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
@@ -36,10 +37,11 @@ import java.time.Duration;
  * @version 1.0
  * @author 김민석G (minskim2)
  */
+@Slf4j
 @AutoConfiguration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(RedisProperties.class)
-public class RedisConfiguration {
+public class RedisAutoConfiguration {
 
     private final RedisProperties redisProperties;
 
@@ -51,6 +53,7 @@ public class RedisConfiguration {
     @ConditionalOnClass(LettuceConnectionFactory.class)
     @ConditionalOnProperty(prefix = "proobject.minskim2.redis", name = "type", havingValue = "cluster")
     public LettuceConnectionFactory lettuceClusterConnectionFactory() {
+        log.info("Creating LettuceConnectionFactory for Redis Cluster");
         // 1) ClusterTopologyRefreshOptions 설정
         ClusterTopologyRefreshOptions clusterTopologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
                 .enableAdaptiveRefreshTrigger()
@@ -88,7 +91,8 @@ public class RedisConfiguration {
     @ConditionalOnClass(LettuceConnectionFactory.class)
     @ConditionalOnProperty(prefix = "proobject.minskim2.redis", name = "type", havingValue = "standalone")
     public LettuceConnectionFactory lettuceStandaloneConnectionFactory() {
-        String[] nodeInfo = redisProperties.getNodes().getFirst().split(":");
+        log.info("Creating LettuceConnectionFactory for Redis Standalone");
+        String[] nodeInfo = redisProperties.getNodes().get(0).split(":");
         String host = nodeInfo[0];
         int port = Integer.parseInt(nodeInfo[1]);
 
@@ -111,8 +115,9 @@ public class RedisConfiguration {
     @ConditionalOnMissingBean(RedissonClient.class)
     @ConditionalOnClass(Redisson.class)
     public RedissonClient redissonClient() {
+        log.info("Creating RedissonClient");
         Config config = new Config();
-        config.useSingleServer().setAddress(redisProperties.getNodes().getFirst());
+        config.useSingleServer().setAddress("redis://" + redisProperties.getNodes().get(0));
 
         return Redisson.create(config);
     }
@@ -122,6 +127,7 @@ public class RedisConfiguration {
     @ConditionalOnMissingBean(RedisSerializer.class)
     @ConditionalOnClass(RedisConnectionFactory.class)
     public RedisSerializer<Object> redisSerializer(ObjectMapper objectMapper) {
+        log.info("Creating RedisSerializer");
         return new GenericJackson2JsonRedisSerializer(objectMapper);
     }
 }

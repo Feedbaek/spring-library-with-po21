@@ -1,0 +1,4 @@
+com.tmax.proobject.minskim2.config.Minskim2AutoConfiguration
+com.tmax.proobject.minskim2.config.CacheAutoConfiguration
+com.tmax.proobject.minskim2.config.DistributedLockAutoConfiguration
+com.tmax.proobject.minskim2.config.RedisAutoConfiguration
