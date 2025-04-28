@@ -1,6 +1,7 @@
 package com.tmax.proobject.minskim2.config;
 
 import com.tmax.proobject.minskim2.lock.RedissonLockAspect;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -14,12 +15,14 @@ import org.springframework.context.annotation.Bean;
  * @version 1.0
  * @author 김민석G (minskim2)
  */
+@Slf4j
 @AutoConfiguration
-public class DistributedLockConfiguration {
+public class DistributedLockAutoConfiguration {
 
     @Bean
     @ConditionalOnBean(RedissonClient.class)
     public RedissonLockAspect distributedLockAspect(RedissonClient redissonClient) {
+        log.info("Creating distributed lock aspect");
         return new RedissonLockAspect(redissonClient);
     }
 }

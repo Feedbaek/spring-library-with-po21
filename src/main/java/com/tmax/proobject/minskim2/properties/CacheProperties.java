@@ -1,5 +1,7 @@
 package com.tmax.proobject.minskim2.properties;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
@@ -11,9 +13,11 @@ import org.springframework.boot.context.properties.ConstructorBinding;
  * @version 1.0
  * @author 김민석G (minskim2)
  */
+@Getter
 @ConstructorBinding
+@RequiredArgsConstructor
 @ConfigurationProperties(prefix = "proobject.minskim2.cache")
 public class CacheProperties {
 
-    private String type;
+    private final String type;
 }

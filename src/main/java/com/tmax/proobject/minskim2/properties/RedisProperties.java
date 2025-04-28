@@ -1,6 +1,7 @@
 package com.tmax.proobject.minskim2.properties;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
@@ -16,9 +17,10 @@ import java.util.List;
  */
 @Getter
 @ConstructorBinding
+@RequiredArgsConstructor
 @ConfigurationProperties(prefix = "proobject.minskim2.redis")
 public class RedisProperties {
 
-    private String type;
-    private List<String> nodes;
+    private final String type;
+    private final List<String> nodes;
 }
