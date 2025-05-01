@@ -58,7 +58,7 @@ public class DualCache implements Cache {
         log.debug("Local cache miss for key: {}", key);
         ValueWrapper globalVal = globalCache.get(key);
         if (globalVal != null) {
-            localCache.put(key, globalVal);
+            localCache.put(key, globalVal.get());
         }
         return globalVal;
     }
