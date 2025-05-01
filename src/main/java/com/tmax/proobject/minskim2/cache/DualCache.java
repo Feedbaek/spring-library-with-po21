@@ -3,6 +3,7 @@ package com.tmax.proobject.minskim2.cache;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 
 import java.util.concurrent.Callable;
@@ -14,6 +15,7 @@ import java.util.concurrent.Callable;
  * @version 1.0
  * @author 김민석G (minskim2)
  * */
+@Slf4j
 @Getter
 public class DualCache implements Cache {
 
@@ -53,6 +55,7 @@ public class DualCache implements Cache {
         if (localVal != null) {
             return localVal;
         }
+        log.debug("Local cache miss for key: {}", key);
         ValueWrapper globalVal = globalCache.get(key);
         if (globalVal != null) {
             localCache.put(key, globalVal);

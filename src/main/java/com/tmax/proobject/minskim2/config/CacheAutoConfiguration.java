@@ -23,12 +23,12 @@ import org.springframework.context.annotation.Bean;
 @EnableConfigurationProperties(CacheProperties.class)
 public class CacheAutoConfiguration {
 
-    @Bean
-    @ConditionalOnMissingBean(DualCacheManager.class)
-    @ConditionalOnBean(name = {"localCacheManager", "globalCacheManager"})
-    public DualCacheManager dualCacheManager(@Qualifier("localCacheManager") CacheManager localManager,
-                                             @Qualifier("globalCacheManager") CacheManager globalManager) {
-        log.info("Creating dual cache manager");
-        return new DualCacheManager(localManager, globalManager);
-    }
+//    @Bean
+//    @ConditionalOnMissingBean(DualCacheManager.class)
+//    @ConditionalOnBean(name = {"localCacheManager", "globalCacheManager"})
+//    public DualCacheManager dualCacheManager(@Qualifier("localCacheManager") CacheManager localManager,
+//                                             @Qualifier("globalCacheManager") CacheManager globalManager) {
+//        log.info("Creating dual cache manager");
+//        return new DualCacheManager(localManager, globalManager);
+//    }
 }
