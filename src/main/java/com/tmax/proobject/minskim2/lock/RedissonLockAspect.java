@@ -11,10 +11,14 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.core.DefaultParameterNameDiscoverer;
+import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.core.annotation.Order;
+import org.springframework.expression.EvaluationContext;
+import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 /**
  * Redisson 을 사용한 분산락을 적용하는 Aspect 구현체
@@ -30,6 +34,8 @@ import java.util.Arrays;
 public class RedissonLockAspect implements DistributedLockAspect {
 
     private final DistributedLockKeyGenerator keyGenerator = new DistributedLockKeyGenerator();
+    private final SpelExpressionParser parser = new SpelExpressionParser();
+    private final ParameterNameDiscoverer nameDiscoverer = new DefaultParameterNameDiscoverer();
 
     private final RedissonClient redissonClient;
 
@@ -46,8 +52,24 @@ public class RedissonLockAspect implements DistributedLockAspect {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         DistributedLock distributedLock = method.getAnnotation(DistributedLock.class);
+        if (distributedLock == null) {
+            return joinPoint.proceed();
+        }
 
-        String key = keyGenerator.generateKey("REDISSON", distributedLock.key());
+        // SpEL 평가
+        EvaluationContext context = new StandardEvaluationContext();
+        String[] paramNames = nameDiscoverer.getParameterNames(method);
+        Object[] args = joinPoint.getArgs();
+        if (paramNames != null) {
+            for (int i = 0; i < paramNames.length; i++) {
+                context.setVariable(paramNames[i], args[i]);
+            }
+        }
+        String lockKey = parser.parseExpression(distributedLock.key()).getValue(context, String.class);
+        if (lockKey == null || lockKey.isBlank()) {
+            throw new DistributedLockException.InvalidKey();
+        }
+        String key = keyGenerator.generateKey("REDISSON", lockKey);
         RLock rLock = redissonClient.getLock(key);
         boolean available = false;
         try {

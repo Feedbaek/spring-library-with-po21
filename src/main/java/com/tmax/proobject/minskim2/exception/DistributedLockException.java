@@ -8,9 +8,6 @@ package com.tmax.proobject.minskim2.exception;
  * @author 김민석G (minskim2)
  */
 public class DistributedLockException extends RuntimeException {
-    private DistributedLockException() {
-        super();
-    }
     private DistributedLockException(String message) {
         super(message);
     }
@@ -26,6 +23,9 @@ public class DistributedLockException extends RuntimeException {
         public NotAvailable(String message) {
             super(message);
         }
+        public NotAvailable(Throwable cause) {
+            super("Distributed lock is not available.", cause);
+        }
         public NotAvailable(String message, Throwable cause) {
             super(message, cause);
         }
@@ -36,6 +36,9 @@ public class DistributedLockException extends RuntimeException {
         }
         public Interrupted(String message) {
             super(message);
+        }
+        public Interrupted(Throwable cause) {
+            super("Thread was interrupted while waiting for distributed lock.", cause);
         }
         public Interrupted(String message, Throwable cause) {
             super(message, cause);
@@ -48,7 +51,25 @@ public class DistributedLockException extends RuntimeException {
         public AlreadyUnlocked(String message) {
             super(message);
         }
+        public AlreadyUnlocked(Throwable cause) {
+            super("Distributed lock is already unlocked.", cause);
+        }
         public AlreadyUnlocked(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
+
+    public static class InvalidKey extends DistributedLockException {
+        public InvalidKey() {
+            super("Distributed lock key is invalid.");
+        }
+        public InvalidKey(String message) {
+            super(message);
+        }
+        public InvalidKey(Throwable cause) {
+            super("Distributed lock key is invalid.", cause);
+        }
+        public InvalidKey(String message, Throwable cause) {
             super(message, cause);
         }
     }
