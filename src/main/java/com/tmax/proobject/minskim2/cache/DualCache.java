@@ -42,7 +42,7 @@ public class DualCache implements Cache {
     @NonNull
     @Override
     public Object getNativeCache() {
-        return localCache.getNativeCache();
+        return globalCache.getNativeCache();
     }
 
     /**
@@ -70,6 +70,7 @@ public class DualCache implements Cache {
         if (localVal != null) {
             return localVal;
         }
+        log.debug("Local cache miss for key: {}", key);
         T globalVal = globalCache.get(key, type);
         if (globalVal != null) {
             localCache.put(key, globalVal);
@@ -83,6 +84,7 @@ public class DualCache implements Cache {
         if (localVal != null) {
             return localVal;
         }
+        log.debug("Local cache miss for key: {}", key);
         T globalVal = globalCache.get(key, valueLoader);
         if (globalVal != null) {
             localCache.put(key, globalVal);
