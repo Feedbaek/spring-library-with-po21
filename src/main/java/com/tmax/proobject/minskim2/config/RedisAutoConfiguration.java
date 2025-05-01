@@ -123,7 +123,6 @@ public class RedisAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnBean(ObjectMapper.class)
     @ConditionalOnMissingBean(RedisSerializer.class)
     @ConditionalOnClass(RedisConnectionFactory.class)
     public RedisSerializer<Object> redisSerializer(ObjectMapper objectMapper) {

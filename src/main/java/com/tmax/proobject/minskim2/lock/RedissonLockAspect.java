@@ -49,13 +49,12 @@ public class RedissonLockAspect implements DistributedLockAspect {
 
         String key = keyGenerator.generateKey("REDISSON", distributedLock.key());
         RLock rLock = redissonClient.getLock(key);
+        boolean available = false;
         try {
-
-            boolean available;
             try {
                 available = rLock.tryLock(
-                        distributedLock.waitTime(),
-                        distributedLock.leaseTime(),
+                        distributedLock.waitTime(), // 락을 얻기 위해 대기하는 시간
+                        distributedLock.leaseTime(), // 락을 소유할 수 있는 시간
                         distributedLock.timeUnit());
             } catch (InterruptedException e) { // 락을 얻으려고 시도하다가 인터럽트를 받았을 때 발생
                 throw new DistributedLockException.Interrupted();
@@ -64,16 +63,12 @@ public class RedissonLockAspect implements DistributedLockAspect {
             if (!available) {
                 throw new DistributedLockException.NotAvailable();
             }
+            log.debug("락 획득 성공: {}", key);
             return joinPoint.proceed();
 
         } finally {
-            try {
+            if (available) {
                 rLock.unlock();
-            } catch (IllegalMonitorStateException ex) { // 락이 이미 종료되었거나, 다른 애플리케이션에서 락 설정한 경우
-                log.debug("락 해제 실패: 락이 이미 종료되었거나, 다른 곳에서 락을 설정했습니다.", ex);
-            } catch (Exception ex) {
-                // 락을 해제하는 도중에 예외가 발생했을 때
-                log.warn("락 해제 중 예외 발생", ex);
             }
         }
     }

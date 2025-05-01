@@ -4,6 +4,7 @@ import com.tmax.proobject.minskim2.lock.RedissonLockAspect;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 
@@ -17,6 +18,7 @@ import org.springframework.context.annotation.Bean;
  */
 @Slf4j
 @AutoConfiguration
+@AutoConfigureAfter(RedisAutoConfiguration.class)
 public class DistributedLockAutoConfiguration {
 
     @Bean
