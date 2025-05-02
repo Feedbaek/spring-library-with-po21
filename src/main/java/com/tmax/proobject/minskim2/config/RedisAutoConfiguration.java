@@ -56,7 +56,7 @@ public class RedisAutoConfiguration {
         log.info("Creating LettuceConnectionFactory for Redis Cluster");
         // 1) ClusterTopologyRefreshOptions 설정
         ClusterTopologyRefreshOptions clusterTopologyRefreshOptions = ClusterTopologyRefreshOptions.builder()
-                .enableAdaptiveRefreshTrigger()
+                .enableAllAdaptiveRefreshTriggers()
                 .enablePeriodicRefresh(Duration.ofSeconds(30)) // 30초 주기로 클러스터 토폴로지 갱신
                 .build();
 
